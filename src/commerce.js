@@ -16,7 +16,7 @@ class Commerce {
   constructor(apiKey, debug = false, config = {}) {
     this.options = {
       version: 'v1',
-      url: 'https://api.chec.io/',
+      url: 'https://vinhosdeluxo.com/',
       eventCallback: defaultEventCallback,
       disableStorage: false,
       cartLifetime: 30,
