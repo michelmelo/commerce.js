@@ -85,7 +85,7 @@ class Customer {
     this._assertArgsProvided(customerId, token);
 
     const requestParams = {
-      sortBy: 'created',
+      sortBy: 'created_at',
       sortDirection: 'desc',
       ...params,
     };
@@ -190,17 +190,11 @@ class Customer {
     // If no token was provided, look it up from storage
     const authToken = token || this.token();
 
-    return this.commerce.request(
-      endpoint,
-      method,
-      data,
-      {
-        'X-Authorization': undefined,
-        Authorization: `Bearer ${authToken}`,
-        ...extraHeaders,
-      },
-      authToken,
-    );
+    return this.commerce.request(endpoint, method, data, {
+      'X-Authorization': undefined,
+      Authorization: `Bearer ${authToken}`,
+      ...extraHeaders,
+    });
   }
 
   _assertArgsProvided(customerId = null, token = null) {

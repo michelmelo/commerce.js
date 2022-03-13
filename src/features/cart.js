@@ -17,7 +17,11 @@ class Cart {
   refresh() {
     return this.commerce.request('carts').then(cart => {
       const { id } = cart;
-      this.commerce.storage.set('commercejs_cart_id', id, 30);
+      this.commerce.storage.set(
+        'commercejs_cart_id',
+        id,
+        this.commerce.options.cartLifetime,
+      );
       this.cartId = id;
       return cart;
     });
@@ -77,14 +81,41 @@ class Cart {
   /**
    * @param {Object|number} productId
    * @param {number} quantity
-   * @param {Object} variant
+   * @param {Object|string|null} variantData Either a string variant ID, or an object map of (variant) group IDs to
+   *                                         option IDs
    * @returns {Promise}
    */
-  add(productId, quantity = 1, variant = null) {
+  add(productId, quantity = 1, variantData = null) {
+    const validatedVariant = {};
+
+    if (typeof variantData === 'string' && variantData.startsWith('vrnt')) {
+      validatedVariant.variant_id = variantData;
+    } else if (variantData && typeof variantData === 'object') {
+      // Check that keys/values are IDs
+      const validKeys = Object.keys(variantData).every(key =>
+        key.startsWith('vgrp'),
+      );
+      const validValues = Object.values(variantData).every(key =>
+        key.startsWith('optn'),
+      );
+
+      if (!validKeys || !validValues) {
+        throw new Error(
+          'The variant options provided to cart.add do not appear to be a valid map of group IDs to option IDs',
+        );
+      }
+
+      validatedVariant.options = variantData;
+    } else if (variantData) {
+      throw new Error(
+        'Variant data provided to cart.add must be a variant ID, or a map of group IDs to option IDs',
+      );
+    }
+
     const data = {
       id: typeof productId === 'object' ? productId.id : productId,
       quantity,
-      variant,
+      ...validatedVariant,
     };
 
     return this.request('', 'post', data);

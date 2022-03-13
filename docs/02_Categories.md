@@ -8,7 +8,7 @@ position: 2
 This section of the documentation goes through the [categories](#list-categories) resource which can be associated with
 products. The categories resource helps to organize products into groups. By creating categories and associating them to
 your products, you can pass optional parameters to filter the products by the `category_slug` or `category_id` in the
-products endpoint. Category data can also be accessed from the product object.
+products endpoint. Category data can also accessed from the product object.
 
 ---
 
@@ -46,8 +46,6 @@ $ curl -X GET \
 ---
 
 ## Retrieve category
-
-![Categories diagram](https://cdn.chec.io/chec-assets/Category%20diagram.png)
 
 The `retrieve()` method uses the `GET /v1/categories/{id}` API endpoint to get a specific category by permalink or ID.
 

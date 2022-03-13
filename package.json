@@ -1,16 +1,20 @@
 {
   "name": "@michelmelo/commerce.js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "lib/index.js",
   "description": "Easy to use JavaScript SDK for managing carts and selling products from your Chec store",
-  "homepage": "https://michelmelo.com",
+  "homepage": "https://commercejs.com",
   "keywords": [
     "commerce",
     "shop",
     "ecommerce",
-    "michelmelo",
-    "michelmelo.io",
-    "sdk"
+    "chec",
+    "chec.io",
+    "sdk",
+    "headless",
+    "jamstack",
+    "api",
+    "checkout"
   ],
   "repository": {
     "type": "git",
@@ -27,14 +31,14 @@
     "test:watch": "jest --watch",
     "prepublishOnly": "rollup -c"
   },
-  "author": "Chec Platform Inc",
+  "author": "Michel Melo",
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/plugin-transform-runtime": "^7.7.4",
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.6.2",
-    "@babel/runtime": "^7.7.4",
+    "caniuse-lite": "^1.0.30001228",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",
@@ -60,6 +64,7 @@
     ]
   },
   "dependencies": {
+    "@babel/runtime": "^7.7.4",
     "axios": "^0.21.1"
   }
 }

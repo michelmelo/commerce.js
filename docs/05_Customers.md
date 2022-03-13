@@ -5,7 +5,6 @@ category: Customers
 position: 5
 ---
 
-
 This section of the documentation goes through the core [Customers](/docs/sdk/customers#send-login-token) endpoint. This
 endpoint allows you to handle customer authentication as well as manage and update customers' information such as
 contact name, email address and metadata.
@@ -14,9 +13,9 @@ A customer in **Chec** is anyone who makes a purchase and has the ability to cre
 customers endpoint will return the full customers object with data to create a customer's authorized view containing
 information such as their contact name and list of orders.
 
-![Customers diagram](https://cdn.chec.io/chec-assets/Customer%20diagram.png)
-
 ---
+
+
 ## Send login token
 
 This endpoint helps to authenticate and resolve a customer in the merchant account by accepting an email address as an
@@ -33,7 +32,7 @@ import Commerce from '@chec/commerce.js';
 
 const commerce = new Commerce('{your_public_key}');
 
-commerce.customer.login('leslie.lawless@example.com', 'https://yourwebsite.com/login/callback').then((token) => console.log(token));
+commerce.customers.login('leslie.lawless@example.com', 'https://yourwebsite.com/login/callback').then((token) => console.log(token));
 ```
 
 Example request using cURL:
@@ -78,7 +77,7 @@ import Commerce from '@chec/commerce.js';
 
 const commerce = new Commerce('{your_public_key}');
 
-commerce.customer.getToken('1ae420a5-2f43-426f-8a61-516eabb56d33').then((jwt) => console.log(jwt));
+commerce.customers.getToken('1ae420a5-2f43-426f-8a61-516eabb56d33').then((jwt) => console.log(jwt));
 ```
 
 Example request using cURL:
@@ -119,7 +118,7 @@ import Commerce from '@chec/commerce.js';
 
 const commerce = new Commerce('{your_public_key}');
 
-commerce.customer.update({
+commerce.customers.update({
   email: 'leslie.lawless@example.com',
   firstname: 'Leslie',
   lastname: 'Lawless',
@@ -166,7 +165,7 @@ import Commerce from '@chec/commerce.js';
 
 const commerce = new Commerce('{your_public_key}');
 
-commerce.customer.getOrders('cstmr_K1YDR2qy29Qem6').then((orders) => console.log(orders));
+commerce.customers.getOrders('cstmr_K1YDR2qy29Qem6').then((orders) => console.log(orders));
 ```
 
 Example request using cURL:
@@ -206,7 +205,7 @@ import Commerce from '@chec/commerce.js';
 
 const commerce = new Commerce('{your_public_key}');
 
-commerce.customer.getOrder('ord_Kvg9l6zvnl1bB7').then((order) => console.log(order));
+commerce.customers.getOrder('ord_Kvg9l6zvnl1bB7').then((order) => console.log(order));
 ```
 
 Example request using cURL:
@@ -245,7 +244,7 @@ import Commerce from '@chec/commerce.js';
 
 const commerce = new Commerce('{your_public_key}');
 
-commerce.customer.about().then((customer) => console.log(customer));
+commerce.customers.about().then((customer) => console.log(customer));
 ```
 
 Example request using cURL:
@@ -278,7 +277,7 @@ import Commerce from '@chec/commerce.js';
 
 const commerce = new Commerce('{your_public_key}');
 
-console.log(commerce.customer.id());
+console.log(commerce.customers.id());
 ```
 
 | Method | Description |
@@ -298,7 +297,7 @@ import Commerce from '@chec/commerce.js';
 
 const commerce = new Commerce('{your_public_key}');
 
-console.log(commerce.customer.token());
+console.log(commerce.customers.token());
 ```
 
 | Method | Description |
@@ -318,7 +317,7 @@ import Commerce from '@chec/commerce.js';
 
 const commerce = new Commerce('{your_public_key}');
 
-console.log(commerce.customer.isLoggedIn());
+console.log(commerce.customers.isLoggedIn());
 ```
 
 | Method | Description |
@@ -338,7 +337,7 @@ import Commerce from '@chec/commerce.js';
 
 const commerce = new Commerce('{your_public_key}');
 
-commerce.customer.logout();
+commerce.customers.logout();
 ```
 
 | Method | Description |

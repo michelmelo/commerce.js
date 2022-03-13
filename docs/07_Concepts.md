@@ -97,36 +97,6 @@ be cleared from the Chec Dashboard, and will automatically use the "Test Gateway
 
 ---
 
-## Versioning
-
-The underlying Chec API that powers Commerce.js is versioned. As time passes, new versions of the API are released that
-cause changes to the way that Commerce.js accepts requests and responds to them. For example, a version may change the name of a field
-in the response so that it's more consistent with other responses.
-
-Not keeping up to date might mean that the performance of Commerce.js is degraded, and you are not able to take
-advantage of new features as they are released. It should be relatively trivial to update your implementation to use a
-new version, but leaving it might mean that you will have to update several versions in one go that can increase the
-complexity. In general, we recommend spending a little time more often to keep up to date, rather than spending a lot of
-effort less often.
-
-In order to update the version of the API that Commerce.js uses, you may either:
-
-- Update the version that is tied to your API key in the [Chec dashboard](https://dashboard.chec.io/developer/api-keys),
-or
-- Specify the version of the API to use when creating you Commerce instance:
-
-```js
-const commerce = new Commerce('{public_api_key}', false, {
-  axiosConfig: {
-    headers: {
-      'Chec-Version': '2021-09-29'
-    },
-  },
-});
-```
-
----
-
 ## Checkout tokens
 
 Checkout tokens need to be generated before you are able to **capture an order**. A [checkout
@@ -151,6 +121,7 @@ checkpoints during the checkout process:
   object](#the-live-object)
 * Generate client side validation rules
 * Get a full list of states/provinces for a country to populate a select field
+* Get the buyer's location from an IP address
 * Set a new tax zone for the checkout when the customer changes their shipping address
 
 All helper endpoints on the [Checkout](/docs/api/?shell#checkout) resource update the live object. E.g. If you select a
@@ -196,8 +167,8 @@ not submitting an address for the customer, you can supply the tax region with t
 
 ### EU VAT MOSS
 
-If you have EU VAT MOSS enabled for your account, you can set the customer's IP address to `tax[ip_address]`, or provide
-a breakdown of the tax country, region, etc. in order to resolve applicable tax rates.
+If you have EU VAT MOSS enabled for your account, you can use the helper function "Get buyer's location from IP" (see
+the full API reference), and use this value to set `tax[ip_address]`.
 
 <div class="highlight highlight--warn">
     <span>Important</span>

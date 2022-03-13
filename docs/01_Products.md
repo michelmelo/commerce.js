@@ -53,8 +53,6 @@ You can filter your products list by passing these optional parameters below:
 | `category_id` | Filter by an array of category IDs, where all categories apply to the product |
 | `limit` | The maximum number of products that will be returned (default: 20, maximum: 200) |
 | `query` | Filter by a term that will be matched against the product's ID (exactly), permalink, and name |
-| `sortBy` | The column to sort by. Valid options are sort_order, name, created, and price |
-| `sortDirection` | The direction to sort in, either asc or desc |
 
 
 Example request listing products filtered by the category slug:
@@ -99,19 +97,6 @@ commerce.products.list({
 }).then(response => response.data); // Returns all products that contains the string in either the product name or permalink
 ```
 
-Example request listing products sorted by highest price first:
-
-```js
-import Commerce from '@chec/commerce.js';
-
-const commerce = new Commerce('{your_public_key}');
-
-commerce.products.list({
-  sortBy: 'price',
-  sortOrder: 'desc',
-}).then(response => response.data); // Returns all products sorted by highest price first.
-```
-
 Once you've got your product data you can populate your product listing view. The response here will include everything
 you need to build this view, such as metadata, assets, variant groups and variant options, conditionals, and prices.
 
@@ -123,8 +108,6 @@ you need to build this view, such as metadata, assets, variant groups and varian
 ---
 
 ## Retrieve product
-
-![Products diagram](https://cdn.chec.io/chec-assets/Product%20diagram.png)
 
 The `retrieve()` method uses `GET v1/products/{product_id}` to retrieve a specific product from the merchant account.
 
@@ -167,8 +150,6 @@ commerce.products.retrieve('ABC123', { type: 'permalink' })
 ---
 
 ## Get variants
-
-![Product variants diagram](https://cdn.chec.io/chec-assets/Product%20diagram.png)
 
 The `getVariants()` method uses `GET v1/products/{product_id}/variants` to list the available variants for a specific
 product. You can use standard pagination parameters such as `limit` and `page` to control the paginated results.

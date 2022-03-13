@@ -1,5 +1,3 @@
-import Commerce from './commerce';
-
 class Storage {
   /**
    * @param {Commerce} commerce
@@ -8,7 +6,22 @@ class Storage {
     this.commerce = commerce;
   }
 
+  /**
+   * Set a value to be persisted. By default this uses cookies.
+   *
+   * @param {String} key
+   * @param {String} value
+   * @param {Number} days If provided, will define the lifetime of the cookie. If not it will be a session cookie.
+   * @returns {null}
+   */
   set(key, value, days) {
+    if (
+      typeof document === 'undefined' ||
+      this.commerce.options.disableStorage
+    ) {
+      return null;
+    }
+
     let path;
     let expires = '';
 
@@ -24,12 +37,25 @@ class Storage {
     if (days) {
       const date = new Date();
       date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-      expires = '; expires=' + date.toGMTString();
+      expires = '; expires=' + date.toUTCString();
     }
     return (document.cookie = key + '=' + value + expires + '; path=' + path);
   }
 
+  /**
+   * Retrieve a persisted value from the store by its key.
+   *
+   * @param {String} key
+   * @returns {string|null}
+   */
   get(key) {
+    if (
+      typeof document === 'undefined' ||
+      this.commerce.options.disableStorage
+    ) {
+      return null;
+    }
+
     key = key + '=';
 
     for (let c of Array.from(document.cookie.split(';'))) {
@@ -44,6 +70,12 @@ class Storage {
     return null;
   }
 
+  /**
+   * Remove a persisted value from the store by its key.
+   *
+   * @param {String} key
+   * @returns {null}
+   */
   remove(key) {
     return this.set(key, '', -1);
   }
