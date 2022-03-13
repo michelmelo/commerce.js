@@ -38,10 +38,13 @@ beforeEach(() => {
 
 describe('Checkout', () => {
   describe('protect', () => {
-    it('returns an empty promise', async () => {
+    it('proxies the request method', async () => {
+      requestMock.mockReturnValueOnce(Promise.resolve({}));
+
       const checkout = new Checkout(mockCommerce);
-      const result = await checkout.protect('foo');
-      expect(result).toBeNull();
+      checkout.protect('foo');
+
+      expect(requestMock).toHaveBeenLastCalledWith('checkouts/foo/protect');
     });
   });
 

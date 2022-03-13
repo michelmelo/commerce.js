@@ -1,33 +1,23 @@
 {
   "name": "@michelmelo/commerce.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "lib/index.js",
   "description": "Easy to use JavaScript SDK for managing carts and selling products from your Chec store",
-  "homepage": "https://michelmelo.pt",
+  "homepage": "https://michelmelo.com",
   "keywords": [
     "commerce",
     "shop",
     "ecommerce",
     "michelmelo",
     "michelmelo.io",
-    "sdk",
-    "headless",
-    "jamstack",
-    "api",
-    "checkout"
+    "sdk"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/michelmelo/commerce.js.git"
+    "url": "https://github.com/michelmelo/commerce.js"
   },
   "bugs": {
     "url": "https://github.com/michelmelo/commerce.js/issues/new"
-  },
-  "files": [
-    "lib"
-  ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "lint": "eslint src",
@@ -35,16 +25,16 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "build": "rollup -c"
+    "prepublishOnly": "rollup -c"
   },
-  "author": "Michel Melo",
-  "license": "MIT",
+  "author": "Chec Platform Inc",
+  "license": "BSD-3-Clause",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/plugin-transform-runtime": "^7.7.4",
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.6.2",
-    "caniuse-lite": "^1.0.30001228",
+    "@babel/runtime": "^7.7.4",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",
@@ -70,12 +60,6 @@
     ]
   },
   "dependencies": {
-    "@babel/runtime": "^7.7.4",
-    "axios": "^0.21.1",
-    "qs": "^6.10.2"
-  },
-  "directories": {
-    "doc": "docs",
-    "lib": "lib"
+    "axios": "^0.21.1"
   }
 }

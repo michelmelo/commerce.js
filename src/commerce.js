@@ -3,7 +3,6 @@ import Storage from './storage';
 import Features from './features';
 import { consoleHelper, debuggerOnNotice } from './console';
 import axios from 'axios';
-import qs from 'qs';
 
 const defaultEventCallback = e => {
   const _e = new CustomEvent(`Commercejs.${e}`, {
@@ -14,35 +13,23 @@ const defaultEventCallback = e => {
 };
 
 class Commerce {
-  constructor(apiKey, debug = false, config = {}) {
+  constructor(publicKey, debug = false, config = {}) {
     this.options = {
       version: 'v1',
       url: 'https://api.chec.io/',
       eventCallback: defaultEventCallback,
-      disableStorage: false,
-      cartLifetime: 30,
-      allowSecretKey: false,
       ...config,
-      apiKey,
-      debug,
+      publicKey: publicKey,
+      debug: debug,
     };
 
-    if (typeof apiKey !== 'string' || apiKey.length === 0) {
+    if (typeof publicKey !== 'string' || publicKey.length === 0) {
       throw new Error('⚠️ Invalid public key given to Commerce.js client');
     }
 
-    if (
-      !config.allowSecretKey &&
-      apiKey.toLowerCase().substring(0, 3) === 'sk_'
-    ) {
+    if (publicKey.toLowerCase().substring(0, 3) === 'sk_') {
       throw new Error(
-        'Secret key provided. You must use a public key with Commerce.js, or use `allowSecretKey` in the config object.',
-      );
-    }
-
-    if (this.options.cartLifetime <= 0 || this.options.cartLifetime > 30) {
-      throw new Error(
-        'cartLifetime configuration option must be between 1 and 30 days',
+        'Secret key provided. You must use a public key with Commerce.js!',
       );
     }
 
@@ -82,7 +69,7 @@ class Commerce {
     returnFullResponse = false,
   ) {
     const headers = {
-      'X-Authorization': this.options.apiKey,
+      'X-Authorization': this.options.publicKey,
       'X-Chec-Agent': 'commerce.js/v2',
       'Content-Type': 'application/json',
     };
@@ -108,7 +95,6 @@ class Commerce {
       data: requestBody,
       timeout,
       ...axiosConfig,
-      paramsSerializer: params => qs.stringify(params),
       headers: { ...headers, ...axiosConfig.headers, ...extraHeaders },
     });
 
@@ -150,12 +136,6 @@ class Commerce {
         // Run our own error handler, then wrap the promise rejection in our own error object
         .catch(error => {
           this.error(error);
-
-          // If the request wasn't even sent, then throw the error as it could be something environmental
-          if (!error.response) {
-            throw error;
-          }
-
           throw {
             message: `Unsuccessful response (${error.response.status}: ${error.response.statusText}) received`,
             statusCode: error.response.status,

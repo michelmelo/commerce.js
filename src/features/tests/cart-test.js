@@ -25,9 +25,8 @@ beforeEach(() => {
   const commerceImpl = {
     options: {
       url: 'http://localhost/',
-      apiKey: 'test',
+      publicKey: 'test',
       version: 'v1',
-      cartLifetime: 30,
     },
     cart: {
       cart_id: null,
@@ -164,19 +163,6 @@ describe('Cart', () => {
       );
       expect(newCart).toHaveProperty('id');
     });
-
-    it('respects custom cartLifetime config', async () => {
-      mockCommerce.options.cartLifetime = 5;
-      const cart = new Cart(mockCommerce);
-      const newCart = await cart.refresh();
-
-      expect(storageSetMock).toHaveBeenCalledWith(
-        'commercejs_cart_id',
-        '12345',
-        5,
-      );
-      expect(newCart).toHaveProperty('id');
-    });
   });
 
   describe('add', () => {
@@ -199,12 +185,12 @@ describe('Cart', () => {
       expect(lastData.id).toBe('bar');
     });
 
-    it('builds a request from given args with variant ID', async () => {
+    it('builds a request from given args', async () => {
       storageGetMock.mockReturnValue('12345');
 
       const cart = new Cart(mockCommerce, '12345');
 
-      await cart.add('id', 6, 'vrnt_123');
+      await cart.add('id', 6, { variant: 'option' });
 
       expect(axios).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -216,27 +202,7 @@ describe('Cart', () => {
       const lastData = axios.mock.calls.pop()[0].data;
       expect(lastData.id).toBe('id');
       expect(lastData.quantity).toEqual(6);
-      expect(lastData.variant_id).toBe('vrnt_123');
-    });
-
-    it('builds a request from given args with variant options', async () => {
-      storageGetMock.mockReturnValue('12345');
-
-      const cart = new Cart(mockCommerce, '12345');
-
-      await cart.add('id', 6, { vgrp_123: 'optn_123' });
-
-      expect(axios).toHaveBeenCalledWith(
-        expect.objectContaining({
-          url: 'carts/12345',
-          method: 'post',
-        }),
-      );
-
-      const lastData = axios.mock.calls.pop()[0].data;
-      expect(lastData.id).toBe('id');
-      expect(lastData.quantity).toEqual(6);
-      expect(lastData.options.vgrp_123).toBe('optn_123');
+      expect(lastData.variant.variant).toBe('option');
     });
   });
 
@@ -246,20 +212,11 @@ describe('Cart', () => {
       storageGetMock.mockReturnValue('12345');
       await cart.retrieve();
 
-      expect(axios).toHaveBeenCalledTimes(1);
       expect(axios).toHaveBeenCalledWith(
         expect.objectContaining({
           url: 'carts/12345',
         }),
       );
-    });
-
-    it('only asks for a fresh cart once', async () => {
-      const cart = new Cart(mockCommerce);
-      storageGetMock.mockReturnValue(null);
-      await cart.retrieve();
-
-      expect(axios).toHaveBeenCalledTimes(1);
     });
 
     it('uses a given cart ID', async () => {

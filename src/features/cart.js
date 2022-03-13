@@ -17,11 +17,7 @@ class Cart {
   refresh() {
     return this.commerce.request('carts').then(cart => {
       const { id } = cart;
-      this.commerce.storage.set(
-        'commercejs_cart_id',
-        id,
-        this.commerce.options.cartLifetime,
-      );
+      this.commerce.storage.set('commercejs_cart_id', id, 30);
       this.cartId = id;
       return cart;
     });
@@ -55,11 +51,7 @@ class Cart {
       typeof endpoint === 'string' && endpoint.length ? `/${endpoint}` : '';
 
     if (!this.id()) {
-      const refreshedCart = await this.refresh();
-      // If we are retrieving a cart we can return the refreshed cart now
-      if (method === 'get' && endpoint === '') {
-        return refreshedCart;
-      }
+      await this.refresh();
     }
 
     return this.commerce
@@ -85,41 +77,14 @@ class Cart {
   /**
    * @param {Object|number} productId
    * @param {number} quantity
-   * @param {Object|string|null} variantData Either a string variant ID, or an object map of (variant) group IDs to
-   *                                         option IDs
+   * @param {Object} variant
    * @returns {Promise}
    */
-  add(productId, quantity = 1, variantData = null) {
-    const validatedVariant = {};
-
-    if (typeof variantData === 'string' && variantData.startsWith('vrnt')) {
-      validatedVariant.variant_id = variantData;
-    } else if (variantData && typeof variantData === 'object') {
-      // Check that keys/values are IDs
-      const validKeys = Object.keys(variantData).every(key =>
-        key.startsWith('vgrp'),
-      );
-      const validValues = Object.values(variantData).every(key =>
-        key.startsWith('optn'),
-      );
-
-      if (!validKeys || !validValues) {
-        throw new Error(
-          'The variant options provided to cart.add do not appear to be a valid map of group IDs to option IDs',
-        );
-      }
-
-      validatedVariant.options = variantData;
-    } else if (variantData) {
-      throw new Error(
-        'Variant data provided to cart.add must be a variant ID, or a map of group IDs to option IDs',
-      );
-    }
-
+  add(productId, quantity = 1, variant = null) {
     const data = {
       id: typeof productId === 'object' ? productId.id : productId,
       quantity,
-      ...validatedVariant,
+      variant,
     };
 
     return this.request('', 'post', data);

@@ -9,12 +9,13 @@ class Checkout {
   }
 
   /**
-   * @deprecated This API no longer exists, the method will be removed in Commerce.js 3.0
    * @param {string} token
    * @return {Promise}
    */
   protect(token) {
-    return new Promise(resolve => resolve(null));
+    return this.commerce.request(`checkouts/${token}/protect`).then(
+      data => eval(data.sift_js), // todo remove this, or document if it is safe
+    );
   }
 
   /**
@@ -117,8 +118,7 @@ class Checkout {
    * @return {Promise}
    */
   getLocationFromIP(token, ipAddress = '') {
-    const urlSuffix =
-      ipAddress && ipAddress.length ? `?ip_address=${ipAddress}` : '';
+    const urlSuffix = ipAddress.length ? `?ip_address=${ipAddress}` : '';
     return this.commerce.request(
       `checkouts/${token}/helper/location_from_ip${urlSuffix}`,
     );

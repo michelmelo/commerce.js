@@ -18,7 +18,6 @@ export default [
         plugins: ["@babel/plugin-transform-runtime"]
       }),
       terser({
-        mangle: false,
         format: {
           comments: false
         },
@@ -46,7 +45,11 @@ export default [
         plugins: ["@babel/plugin-transform-runtime"]
       }),
       terser({
-        mangle: false,
+        mangle: {
+          properties: {
+            builtins: false
+          }
+        },
         format: {
           comments: false
         },

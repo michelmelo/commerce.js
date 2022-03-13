@@ -26,29 +26,7 @@ describe('Commerce', () => {
       expect(() => {
         new Commerce('sk_9w8h598s4t9st');
       }).toThrowError(
-        'Secret key provided. You must use a public key with Commerce.js, or use `allowSecretKey` in the config object.',
-      );
-    });
-
-    it('allows use of a secret key', () => {
-      expect(() => {
-        new Commerce('sk_9w8h598s4t9st', false, { allowSecretKey: true });
-      }).not.toThrowError();
-    });
-
-    it('ensures that cart lifetime is positive', () => {
-      expect(() => {
-        new Commerce('pk_9w8h598s4t9st', true, { cartLifetime: -1 });
-      }).toThrowError(
-        'cartLifetime configuration option must be between 1 and 30 days',
-      );
-    });
-
-    it('ensures that cart lifetime is less than 30', () => {
-      expect(() => {
-        new Commerce('pk_9w8h598s4t9st', true, { cartLifetime: 31 });
-      }).toThrowError(
-        'cartLifetime configuration option must be between 1 and 30 days',
+        'Secret key provided. You must use a public key with Commerce.js!',
       );
     });
   });

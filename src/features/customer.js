@@ -56,7 +56,6 @@ class Customer {
    * Update customer
    *
    * @see https://commercejs.com/docs/api/#update-customer
-   * @param {object} data The data to update on the customer
    * @param {string|null} customerId Optional: the customer's ID e.g. cstmr_ABC123, or null to use session
    * @param {string|null} token Optional: access token for the customer, or null to use session
    * @returns {Promise}
@@ -86,7 +85,7 @@ class Customer {
     this._assertArgsProvided(customerId, token);
 
     const requestParams = {
-      sortBy: 'created_at',
+      sortBy: 'created',
       sortDirection: 'desc',
       ...params,
     };
@@ -122,20 +121,12 @@ class Customer {
   }
 
   /**
-   * Gets information about the currently authorized customer, or a specific customer ID
+   * Gets information about the currently authorized customer
    *
-   * @param {string|null} customerId Optional: the customer's ID e.g. cstmr_ABC123, or null to use session
-   * @param {string|null} token Optional: access token for the customer, or null to use session
    * @return {Promise}
    */
-  about(customerId = null, token = null) {
-    return this._request(
-      `customers/${customerId || this.id()}`,
-      'get',
-      {},
-      {},
-      token,
-    );
+  about() {
+    return this._request(`customers/${this.id()}`);
   }
 
   /**
@@ -199,11 +190,17 @@ class Customer {
     // If no token was provided, look it up from storage
     const authToken = token || this.token();
 
-    return this.commerce.request(endpoint, method, data, {
-      'X-Authorization': undefined,
-      Authorization: `Bearer ${authToken}`,
-      ...extraHeaders,
-    });
+    return this.commerce.request(
+      endpoint,
+      method,
+      data,
+      {
+        'X-Authorization': undefined,
+        Authorization: `Bearer ${authToken}`,
+        ...extraHeaders,
+      },
+      authToken,
+    );
   }
 
   _assertArgsProvided(customerId = null, token = null) {

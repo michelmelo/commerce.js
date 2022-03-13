@@ -55,26 +55,12 @@ describe('Customer', () => {
       expect(requestMock).toHaveBeenLastCalledWith(
         'customers/cstmr_QWERTY',
         'get',
-        {},
+        null,
         {
           'X-Authorization': undefined,
           Authorization: 'Bearer ABC-123-ZYX-234',
         },
-      );
-    });
-
-    it('accepts ID and token arguments', () => {
-      const customer = new Customer(mockCommerce);
-      customer.about('cstmr_ABC123', 'BCD-234-CBD-345');
-
-      expect(requestMock).toHaveBeenLastCalledWith(
-        'customers/cstmr_ABC123',
-        'get',
-        {},
-        {
-          'X-Authorization': undefined,
-          Authorization: 'Bearer BCD-234-CBD-345',
-        },
+        'ABC-123-ZYX-234',
       );
     });
   });
@@ -119,6 +105,7 @@ describe('Customer', () => {
           'X-Authorization': undefined,
           Authorization: 'Bearer ABC-123-ZYX-234',
         },
+        'ABC-123-ZYX-234',
       );
 
       const result = await returnValue;
@@ -156,6 +143,7 @@ describe('Customer', () => {
           'X-Authorization': undefined,
           Authorization: 'Bearer ABC-123-ZYX-234',
         },
+        'ABC-123-ZYX-234',
       );
     });
 
@@ -172,6 +160,7 @@ describe('Customer', () => {
           'X-Authorization': undefined,
           Authorization: 'Bearer ABC-123-ZYX-234',
         },
+        'ABC-123-ZYX-234',
       );
     });
   });
@@ -195,6 +184,7 @@ describe('Customer', () => {
           'X-Authorization': undefined,
           Authorization: 'Bearer ABC-123-ZYX-234',
         },
+        'ABC-123-ZYX-234',
       );
     });
 
@@ -225,13 +215,14 @@ describe('Customer', () => {
         'customers/cstmr_QWERTY/orders',
         'get',
         {
-          sortBy: 'created_at',
+          sortBy: 'created',
           sortDirection: 'desc',
         },
         {
           'X-Authorization': undefined,
           Authorization: 'Bearer ABC-123-ZYX-234',
         },
+        'ABC-123-ZYX-234',
       );
     });
 
@@ -244,13 +235,14 @@ describe('Customer', () => {
         'customers/cstmr_QWERTY/orders',
         'get',
         {
-          sortBy: 'created_at',
+          sortBy: 'created',
           sortDirection: 'desc',
         },
         {
           'X-Authorization': undefined,
           Authorization: 'Bearer ABC-123-ZYX-234',
         },
+        'ABC-123-ZYX-234',
       );
     });
   });
@@ -268,6 +260,7 @@ describe('Customer', () => {
           'X-Authorization': undefined,
           Authorization: 'Bearer ABC-123-ZYX-234',
         },
+        'ABC-123-ZYX-234',
       );
     });
 
@@ -302,6 +295,7 @@ describe('Customer', () => {
           'X-Authorization': undefined,
           Authorization: 'Bearer ABC-123-ZYX-234',
         },
+        'ABC-123-ZYX-234',
       );
     });
 
@@ -318,6 +312,7 @@ describe('Customer', () => {
           'X-Authorization': undefined,
           Authorization: 'Bearer ABC-123-ZYX-234',
         },
+        'ABC-123-ZYX-234',
       );
     });
   });
