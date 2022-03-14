@@ -16,7 +16,7 @@ class Commerce {
   constructor(apiKey, debug = false, config = {}) {
     this.options = {
       version: 'v1',
-      url: 'https://pt.vinhosdeluxo.com/api/commerce/',
+      url: 'https://api.vinhosdeluxo.com/api/commerce/',
       eventCallback: defaultEventCallback,
       disableStorage: false,
       cartLifetime: 30,
