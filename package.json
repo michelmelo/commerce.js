@@ -3,13 +3,11 @@
   "version": "0.0.7",
   "main": "lib/index.js",
   "description": "Easy to use JavaScript SDK for managing carts and selling products from your Chec store",
-  "homepage": "https://commercejs.com",
+  "homepage": "https://michelmelo.pt",
   "keywords": [
     "commerce",
     "shop",
     "ecommerce",
-    "chec",
-    "chec.io",
     "sdk",
     "headless",
     "jamstack",
@@ -32,7 +30,7 @@
     "prepublishOnly": "rollup -c"
   },
   "author": "Michel Melo",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/plugin-transform-runtime": "^7.7.4",
